@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="smartsyncGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0071E3"/>
+      <stop offset="100%" stop-color="#66D9EF"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#0F172A"/>
+  <!-- Scanner aperture -->
+  <circle cx="50" cy="50" r="32" stroke="url(#smartsyncGrad)" stroke-width="4" stroke-dasharray="6 4"/>
+  <!-- QR Corner Target Marks -->
+  <path d="M28 36 V28 H36" stroke="#66D9EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M72 36 V28 H64" stroke="#66D9EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M28 64 V72 H36" stroke="#66D9EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M72 64 V72 H64" stroke="#66D9EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Biometric Face / Sync Center -->
+  <circle cx="50" cy="44" r="10" stroke="#FFFFFF" stroke-width="3" fill="rgba(0,113,227,0.3)"/>
+  <path d="M36 65 C36 57 43 54 50 54 C57 54 64 57 64 65" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <!-- Verified live status dot -->
+  <circle cx="50" cy="50" r="3" fill="#34C759"/>
+</svg>

@@ -1,0 +1,313 @@
+.profile-card-wrapper {
+  --pc-width: 360px;
+  --pc-radius: 22px;
+  --pc-bg: #0d131f;
+  --pc-border: rgba(190, 210, 230, 0.14);
+  --pc-border-hover: rgba(102, 217, 239, 0.45);
+  --pc-holo-intensity: 0.5;
+  --pc-glare-intensity: 0.3;
+  --pc-tilt-strength: 8deg;
+  --pc-parallax: 6px;
+
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: var(--pc-width);
+  margin-inline: auto;
+  perspective: 1200px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+
+/* Outer Ambient Drop Glow behind the card */
+.profile-card-ambient-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 36px;
+  background: radial-gradient(
+    circle at var(--pc-pointer-x, 50%) var(--pc-pointer-y, 50%),
+    rgba(102, 217, 239, 0.22) 0%,
+    rgba(185, 165, 255, 0.12) 40%,
+    transparent 72%
+  );
+  filter: blur(24px);
+  opacity: var(--pc-ambient-opacity, 0.55);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 300ms ease;
+}
+
+/* Main 3D Card Shell */
+.profile-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border-radius: var(--pc-radius);
+  background: linear-gradient(160deg, #111722 0%, #0d131f 55%, #080a0f 100%);
+  border: 1px solid var(--pc-border);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 2px 10px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  outline: none;
+  transition: border-color 250ms ease, box-shadow 300ms ease;
+}
+
+.profile-card:hover,
+.profile-card:focus-visible {
+  border-color: var(--pc-border-hover);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.9), 0 0 30px rgba(102, 217, 239, 0.18);
+}
+
+/* Portrait Frame Container (4:5 Aspect Ratio) */
+.profile-card-portrait-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: calc(var(--pc-radius) - 2px) calc(var(--pc-radius) - 2px) 0 0;
+  background-color: #080a0f;
+  transform-style: preserve-3d;
+}
+
+/* The actual professional portrait image with parallax */
+.profile-card-portrait-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 34%;
+  filter: contrast(1.05) brightness(0.98);
+  pointer-events: none;
+  transform: translate3d(var(--pc-parallax-x, 0px), var(--pc-parallax-y, 0px), 0) scale(1.06);
+  transition: transform 120ms ease-out;
+}
+
+/* Computer Science Repeating Tiled Pattern Overlay */
+.profile-card-tiled-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.16;
+  mix-blend-mode: screen;
+  background-size: 48px 48px;
+  background-repeat: repeat;
+  transition: opacity 300ms ease;
+}
+
+.profile-card:hover .profile-card-tiled-pattern {
+  opacity: 0.24;
+}
+
+/* Subtle Holographic Foil Sheen Reacting to Cursor */
+.profile-card-holo-foil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: color-dodge;
+  opacity: var(--pc-holo-opacity, 0);
+  background: linear-gradient(
+    calc(var(--pc-angle, 135deg)),
+    rgba(102, 217, 239, 0.35) 0%,
+    rgba(185, 165, 255, 0.32) 28%,
+    rgba(102, 217, 239, 0.15) 50%,
+    rgba(215, 225, 240, 0.4) 72%,
+    rgba(185, 165, 255, 0.35) 100%
+  );
+  background-size: 200% 200%;
+  background-position: var(--pc-holo-pos-x, 50%) var(--pc-holo-pos-y, 50%);
+  transition: opacity 260ms ease;
+}
+
+/* Dynamic Radial Glare Highlight following cursor */
+.profile-card-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  opacity: var(--pc-glare-opacity, 0);
+  background: radial-gradient(
+    circle 280px at var(--pc-pointer-x, 50%) var(--pc-pointer-y, 50%),
+    rgba(255, 255, 255, var(--pc-glare-intensity)) 0%,
+    rgba(102, 217, 239, calc(var(--pc-glare-intensity) * 0.45)) 35%,
+    transparent 75%
+  );
+  transition: opacity 220ms ease;
+}
+
+/* Scrim Gradient at the bottom of the portrait for high text legibility */
+.profile-card-portrait-scrim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52%;
+  background: linear-gradient(
+    to top,
+    rgba(8, 10, 15, 0.98) 0%,
+    rgba(8, 10, 15, 0.72) 48%,
+    rgba(8, 10, 15, 0.15) 80%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem 1.4rem 1.15rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.profile-card-specimen-tag {
+  font-family: var(--font-cinematic-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary-accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.profile-card-name {
+  font-family: var(--font-cinematic-display);
+  font-size: clamp(1.35rem, 2vw, 1.55rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 0.25rem 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.profile-card-role {
+  font-family: var(--font-cinematic-body);
+  font-size: 12.5px;
+  color: #a4afbd;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Card Identity Footer */
+.profile-card-footer {
+  position: relative;
+  z-index: 6;
+  padding: 1rem 1.4rem;
+  background: rgba(13, 19, 31, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.profile-card-footer-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.profile-card-handle {
+  font-family: var(--font-cinematic-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #f5f7fa;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 180ms ease;
+}
+
+.profile-card-handle:hover {
+  color: var(--primary-accent);
+}
+
+.profile-card-sublabel {
+  font-family: var(--font-cinematic-mono);
+  font-size: 10.5px;
+  color: #8b97a8;
+  letter-spacing: 0.03em;
+}
+
+/* Contact Action Button in Footer */
+.profile-card-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 9999px;
+  background-color: rgba(102, 217, 239, 0.12);
+  border: 1px solid rgba(102, 217, 239, 0.35);
+  color: var(--primary-accent);
+  font-family: var(--font-cinematic-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-card-contact-btn:hover,
+.profile-card-contact-btn:focus-visible {
+  background-color: var(--primary-accent);
+  color: #080a0f;
+  box-shadow: 0 0 16px rgba(102, 217, 239, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Mobile responsiveness adjustments */
+@media (max-width: 480px) {
+  .profile-card-wrapper {
+    --pc-width: 100%;
+    max-width: 320px;
+  }
+
+  .profile-card-footer {
+    padding: 0.95rem 1rem 1.15rem;
+  }
+
+  .profile-card-identity-name {
+    font-size: 1.25rem;
+  }
+
+  .profile-card-email-label {
+    font-size: 11px;
+  }
+
+  .profile-card-contact-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 10px;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .profile-card {
+    transform: none !important;
+    transition: none !important;
+  }
+  .profile-card-portrait-img {
+    transform: none !important;
+    transition: none !important;
+  }
+  .profile-card-holo-foil,
+  .profile-card-glare {
+    display: none !important;
+  }
+}

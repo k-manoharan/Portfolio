@@ -1,0 +1,427 @@
+/* =============================================================================
+   CINEMATIC DESIGN SYSTEM — OBSIDIAN ATMOSPHERE (CLEAN BORDERLESS DIRECTION)
+   ============================================================================= */
+
+:root {
+  /* ── Core Obsidian Color Tokens ─────────────────────────────────────────── */
+  --obsidian-bg:        #080A0F;
+  --midnight-surface:   #101827;
+  --secondary-surface:  #151D29;
+  --surface-elevated:   #1A2536;
+  --surface-card:       rgba(16, 24, 39, 0.92);
+
+  --cinematic-text-primary:   #F5F7FA;
+  --cinematic-text-secondary: #A4AFBD;
+  --cinematic-text-muted:     #718096;
+
+  --primary-accent:           #66D9EF; /* Cyan */
+  --primary-accent-glow:      rgba(102, 217, 239, 0.25);
+  --primary-accent-dim:       rgba(102, 217, 239, 0.08);
+
+  --secondary-accent:         #B9A5FF; /* Soft Violet */
+  --secondary-accent-glow:    rgba(185, 165, 255, 0.22);
+  --secondary-accent-dim:     rgba(185, 165, 255, 0.08);
+
+  /* Clean separators - subtle background shifts, NO white or visible borders */
+  --cinematic-border:         transparent;
+  --cinematic-border-glow:    transparent;
+  --cinematic-border-subtle:  transparent;
+
+  /* ── Studio Typography Scale ─────────────────────────────────────────────── */
+  --font-cinematic-display:   'Space Grotesk', -apple-system, sans-serif;
+  --font-cinematic-body:      Tahoma, 'Product Sans', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-cinematic-mono:      'IBM Plex Mono', monospace;
+
+  /* ── Fluid Spatial Metrics ────────────────────────────────────────────────── */
+  --cinematic-max-width:      1240px;
+  --cinematic-padding-x:      clamp(1.25rem, 4vw, 4rem);
+  --cinematic-section-y:      clamp(5.5rem, 4.5rem + 5.5vw, 9rem);
+}
+
+/* ── Scroll Reveal Entrance Animations ──────────────────────────────────────── */
+@keyframes revealFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes revealFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes revealSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes revealSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes revealScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Ambient Scan & Glow ─────────────────────────────────────────────────────── */
+@keyframes heroScanLine {
+  0%   { top: -4px; opacity: 0; }
+  10%  { opacity: 0.45; }
+  90%  { opacity: 0.45; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes heroPulseGlow {
+  0%   { opacity: 0.3; transform: scale(1); }
+  50%  { opacity: 0.55; transform: scale(1.06); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+/* ── Timeline Beacon Pulse ──────────────────────────────────────────────────── */
+@keyframes beaconPing {
+  0%   { box-shadow: 0 0 0 0 rgba(102, 217, 239, 0.65), 0 0 8px var(--primary-accent); }
+  70%  { box-shadow: 0 0 0 8px rgba(102, 217, 239, 0), 0 0 8px var(--primary-accent); }
+  100% { box-shadow: 0 0 0 0 rgba(102, 217, 239, 0), 0 0 8px var(--primary-accent); }
+}
+
+/* ── Modal Pulse ─────────────────────────────────────────────────────────────── */
+@keyframes modalNeonPulse {
+  0% {
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.88), 0 0 20px rgba(102, 217, 239, 0.15);
+  }
+  50% {
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.95), 0 0 30px rgba(185, 165, 255, 0.22);
+  }
+  100% {
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.88), 0 0 20px rgba(102, 217, 239, 0.15);
+  }
+}
+
+/* ── Utility Classes ─────────────────────────────────────────────────────────── */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.reveal-visible {
+  animation: revealFadeUp 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.reveal-hidden-left {
+  opacity: 0;
+  transform: translateX(-24px);
+}
+
+.reveal-visible-left {
+  animation: revealSlideRight 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.reveal-hidden-right {
+  opacity: 0;
+  transform: translateX(24px);
+}
+
+.reveal-visible-right {
+  animation: revealSlideLeft 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Base dark container scope and environment for Cinematic Experience */
+html:has(.cinematic-scope),
+body:has(.cinematic-scope),
+html.cinematic-active,
+body.cinematic-active {
+  background-color: var(--obsidian-bg) !important;
+  color-scheme: dark !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  overflow-x: hidden !important;
+}
+
+#root:has(.cinematic-scope) {
+  background-color: var(--obsidian-bg) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  min-height: 100vh;
+}
+
+.cinematic-scope {
+  background-color: var(--obsidian-bg);
+  color: var(--cinematic-text-primary);
+  font-family: var(--font-cinematic-body);
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  position: relative;
+  overflow-x: hidden;
+  isolation: isolate;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cinematic-scope h1,
+.cinematic-scope h2,
+.cinematic-scope h3,
+.cinematic-scope h4 {
+  font-family: var(--font-cinematic-display);
+  color: var(--cinematic-text-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.cinematic-scope p,
+.cinematic-scope li,
+.cinematic-scope span.cinematic-text,
+.cinematic-scope div.cinematic-desc {
+  font-family: var(--font-cinematic-body);
+  color: var(--cinematic-text-secondary);
+  line-height: 1.75;
+}
+
+.cinematic-container {
+  width: 100%;
+  max-width: var(--cinematic-max-width);
+  margin-inline: auto;
+  padding-inline: var(--cinematic-padding-x);
+  position: relative;
+  z-index: 10;
+}
+
+.cinematic-section {
+  padding-block: var(--cinematic-section-y);
+  position: relative;
+  z-index: 10;
+}
+
+/* Studio-grade section badge label */
+.cinematic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--font-cinematic-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-accent);
+  margin-bottom: 0.95rem;
+  padding: 0.35rem 0.95rem;
+  background: rgba(102, 217, 239, 0.08);
+  border: none;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.cinematic-heading {
+  font-size: clamp(2.2rem, 1.8rem + 2.4vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: #FFFFFF;
+  margin-bottom: 1.15rem;
+  line-height: 1.12;
+}
+
+.cinematic-subheading {
+  font-family: var(--font-cinematic-body) !important;
+  font-size: clamp(1.02rem, 0.96rem + 0.3vw, 1.18rem);
+  line-height: 1.8;
+  color: var(--cinematic-text-secondary);
+  max-width: 680px;
+  margin-bottom: clamp(2.75rem, 2.2rem + 2.5vw, 4.5rem);
+}
+
+/* Modal and enclosed card animation */
+.cinematic-modal-enclosed {
+  animation: modalNeonPulse 5s ease-in-out infinite;
+  border: none !important;
+}
+
+/* Scrollbar polish */
+.cinematic-scope ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.cinematic-scope ::-webkit-scrollbar-track {
+  background: var(--obsidian-bg);
+}
+.cinematic-scope ::-webkit-scrollbar-thumb {
+  background: #172235;
+  border-radius: 9999px;
+}
+.cinematic-scope ::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-accent);
+}
+
+/* Focus ring accessibility */
+.cinematic-scope button:focus-visible,
+.cinematic-scope a:focus-visible {
+  outline: 2px solid var(--primary-accent);
+  outline-offset: 3px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-scope * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =============================================================================
+   DEVICE-SPECIFIC RESPONSIVE OPTIMIZATIONS
+   Laptop = Master Design Reference (>= 1024px)
+   Careful adaptations for Mobile (< 768px), Tablet / iPad (768px - 1023px),
+   and Large Displays (>= 1440px)
+   ============================================================================= */
+
+/* Tablet & iPad Portrait / Landscape (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --cinematic-padding-x: clamp(1.5rem, 3.5vw, 2.5rem);
+    --cinematic-section-y: clamp(4rem, 3.5rem + 2vw, 6rem);
+  }
+
+  .cinematic-container {
+    max-width: 960px;
+  }
+
+  .hero-grid-layout {
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 2.25rem !important;
+    align-items: center;
+  }
+
+  .about-split-layout {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .balanced-flex-grid {
+    --card-min-width: 320px !important;
+    --card-max-width: 440px !important;
+    gap: 1.5rem !important;
+  }
+
+  .circular-gallery-container {
+    height: 560px !important;
+  }
+}
+
+/* Mobile Phones (<= 767px) */
+@media (max-width: 767px) {
+  :root {
+    --cinematic-padding-x: clamp(1rem, 4vw, 1.35rem);
+    --cinematic-section-y: clamp(3.25rem, 2.75rem + 2vw, 4.5rem);
+  }
+
+  /* Responsive Grid Stacks */
+  .hero-grid-layout,
+  .about-split-layout,
+  .elastic-stage-grid,
+  .vertical-reel-layout {
+    grid-template-columns: 1fr !important;
+    gap: 2.25rem !important;
+  }
+
+  /* Projects balanced grid mobile sizing */
+  .balanced-flex-grid {
+    --card-min-width: 100% !important;
+    --card-max-width: 100% !important;
+    gap: 1.25rem !important;
+  }
+
+  .balanced-flex-grid > .balanced-grid-card {
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Ensure headings fit within screen without overflow */
+  .cinematic-heading {
+    font-size: clamp(1.85rem, 1.6rem + 2vw, 2.4rem) !important;
+    word-break: break-word;
+  }
+
+  .cinematic-subheading {
+    font-size: 0.95rem !important;
+    margin-bottom: 1.75rem !important;
+    line-height: 1.65 !important;
+  }
+}
+
+/* Extra small mobile phones (<= 480px) */
+@media (max-width: 480px) {
+  :root {
+    --cinematic-padding-x: 1rem;
+    --cinematic-section-y: 3rem;
+  }
+
+  /* Compact button styling on small screens */
+  .cinematic-scope button,
+  .cinematic-scope a.button {
+    font-size: 0.85rem;
+  }
+
+  /* Project Flip Card height adaptation for narrow screens */
+  .flip-card {
+    --fc-h: 530px !important;
+    height: var(--fc-h) !important;
+    border-radius: 18px !important;
+  }
+
+  .flip-card__face {
+    border-radius: 18px !important;
+    padding: 1.25rem !important;
+  }
+
+  /* Modal responsive containment */
+  .cinematic-modal-enclosed {
+    border-radius: 18px !important;
+    max-height: 94vh !important;
+    width: 100% !important;
+  }
+
+  /* Circular Gallery adaptation */
+  .circular-gallery-container {
+    height: 520px !important;
+  }
+}
+
+/* Large Displays (>= 1440px) */
+@media (min-width: 1440px) {
+  .cinematic-container {
+    max-width: 1320px;
+  }
+}
+

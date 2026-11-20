@@ -1,0 +1,270 @@
+/* =============================================================================
+   UTILITY CLASSES — Layout, Section Headers & Typography
+   ============================================================================= */
+
+/* Screen reader accessible hiding */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visibility ring */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Page canvas and container constraints */
+.site-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width-content);
+  margin-inline: auto;
+  padding-inline: var(--page-padding-x);
+}
+
+.container--narrow {
+  max-width: var(--max-width-text);
+}
+
+/* Section block spacing */
+.section {
+  padding-block: var(--section-padding-y);
+  position: relative;
+}
+
+.section--dark {
+  background-color: var(--color-surface-dark);
+  color: var(--color-text-inverse);
+}
+
+/* Editorial Section Header Component styles */
+.section-header {
+  margin-bottom: clamp(2.5rem, 2rem + 2vw, 4.5rem);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.section--dark .section-label {
+  color: var(--color-text-tertiary);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.section--dark .section-title {
+  color: var(--color-text-inverse);
+}
+
+.section-subtitle {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 680px;
+}
+
+.section--dark .section-subtitle {
+  color: var(--color-text-tertiary);
+}
+
+/* Metadata tag badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+  transition: all var(--transition-fast);
+}
+
+.section--dark .badge {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-inverse);
+  border-color: var(--color-border-dark);
+}
+
+/* =============================================================================
+   BALANCED RESPONSIVE CARD GRID SYSTEM
+   Centers incomplete trailing rows (1 or 2 cards) while preserving normal alignment
+   on full rows, keeping exact card dimensions and uniform spacing.
+   ============================================================================= */
+
+.balanced-card-grid {
+  display: grid;
+  gap: var(--grid-gap, 1.25rem);
+  width: 100%;
+}
+
+/* 3-Column Base Grids (Default desktop min-width >= 1024px) */
+@media (min-width: 1024px) {
+  .balanced-card-grid--3col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* When total % 3 === 1 (Single trailing card in final row) */
+  .balanced-card-grid--3col>.card-item:last-child:nth-child(3n + 1) {
+    grid-column: 2;
+  }
+
+  /* When total % 3 === 2 (Two trailing cards in final row) */
+  /* Span 6 virtual columns on a 6-col subgrid: columns 2-3 and 4-5 */
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  .balanced-card-grid--3col,
+  .balanced-card-grid--2col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* When total % 2 === 1 (Single trailing card in final 2-col row) */
+  .balanced-card-grid--3col>.card-item:last-child:nth-child(2n + 1),
+  .balanced-card-grid--2col>.card-item:last-child:nth-child(2n + 1) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .balanced-card-grid--3col,
+  .balanced-card-grid--2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Unified Flex-Grid Balanced Container (Flex wrap with center alignment)
+   - Items keep strict uniform width and height
+   - Full rows fill evenly across available width
+   - Final row automatically centers 1 or 2 items
+*/
+.balanced-flex-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--grid-gap, 1.25rem);
+  width: 100%;
+}
+
+.balanced-flex-grid>.balanced-grid-card {
+  flex: 1 1 var(--card-min-width, 320px);
+  max-width: var(--card-max-width, 390px);
+  min-width: min(100%, var(--card-min-width, 320px));
+}
+
+@media (max-width: 480px) {
+  .balanced-flex-grid {
+    gap: 1rem;
+  }
+  .balanced-flex-grid>.balanced-grid-card {
+    min-width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* =============================================================================
+   DEVICE-SPECIFIC RESPONSIVE ADAPTATIONS
+   Master Design = Laptop (>= 1024px)
+   Adapts cleanly for Mobile (< 768px), Tablet / iPad (768px - 1023px),
+   and Large Displays (>= 1440px)
+   ============================================================================= */
+
+/* Responsive hero editorial layout */
+@media (max-width: 900px) {
+  .hero-content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+}
+
+/* Tablet & iPad Portrait / Landscape (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --page-padding-x: clamp(1.5rem, 3vw, 2.5rem);
+    --section-padding-y: clamp(3.75rem, 3rem + 2vw, 5.5rem);
+  }
+
+  .container {
+    max-width: 960px;
+  }
+
+  .hero-content-grid {
+    grid-template-columns: 1.15fr 0.85fr !important;
+    gap: 2rem !important;
+    align-items: center;
+  }
+}
+
+/* Mobile Phones (max-width: 767px) */
+@media (max-width: 767px) {
+  :root {
+    --page-padding-x: clamp(1rem, 4vw, 1.35rem);
+    --section-padding-y: clamp(3.25rem, 2.75rem + 2vw, 4.25rem);
+  }
+
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 1.5rem + 1.5vw, 2.25rem);
+    word-break: break-word;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .hero-content-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.25rem !important;
+  }
+}
+
+/* Large Displays (>= 1440px) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1280px;
+  }
+}
