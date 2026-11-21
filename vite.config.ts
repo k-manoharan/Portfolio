@@ -1,11 +1,11 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// GitHub Pages deploys to: https://k-manoharan.github.io/Manoharan-Portfolio/
-// The base must match the repository name for asset paths to resolve correctly.
+// Custom Domain: https://manoharank.me/
+// With a custom root domain on GitHub Pages, the base path is '/'
 export default defineConfig({
   plugins: [react()],
-  base: '/Manoharan-Portfolio/',
+  base: '/',
   build: {
     outDir: 'dist',
     sourcemap: false,
