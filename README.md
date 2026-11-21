@@ -1,4 +1,5 @@
 # Manoharan K — Portfolio
+<img width="1774" height="887" alt="Manoharan Portfolio GIt repo card (1)" src="https://github.com/user-attachments/assets/820db967-ac82-4e17-92be-8f8d13b3f7c5" />
 
 > Premium editorial engineering portfolio built with React + TypeScript + Vite.
 
